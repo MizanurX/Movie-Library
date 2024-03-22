@@ -1,0 +1,154 @@
+--Creating Movies Table
+
+CREATE TABLE Movies (
+    movie_id INT PRIMARY KEY,
+    title VARCHAR(255),
+    release_year INT,
+    genre_id INT,
+    director_id INT,
+    studio_id INT,
+    FOREIGN KEY (genre_id) REFERENCES Genres(genre_id),
+    FOREIGN KEY (director_id) REFERENCES Directors(director_id),
+    FOREIGN KEY (studio_id) REFERENCES Studios(studio_id)
+);
+
+-- Creating Actors Table
+
+CREATE TABLE Actors (
+    actor_id INT PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+--Creating MovieActor Table (Join Table)
+
+CREATE TABLE MovieActor (
+    movie_id INT,
+    actor_id INT,
+    PRIMARY KEY (movie_id, actor_id),
+    FOREIGN KEY (movie_id) REFERENCES Movies(movie_id),
+    FOREIGN KEY (actor_id) REFERENCES Actors(actor_id)
+);
+
+--Creating Genres Table
+
+CREATE TABLE Genres (
+    genre_id INT PRIMARY KEY,
+    genre_name VARCHAR(255)
+);
+
+--Creating Directors Table
+
+CREATE TABLE Directors (
+    director_id INT PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+--Creating Studios Table
+
+CREATE TABLE Studios (
+    studio_id INT PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+--Creating Users Table
+
+CREATE TABLE Users (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(255),
+    password VARCHAR(255),
+    email VARCHAR(255)
+);
+
+--Creating Reviews Table
+
+CREATE TABLE Reviews (
+    review_id INT PRIMARY KEY,
+    review_text TEXT,
+    rating FLOAT,
+    movie_id INT,
+    user_id INT,
+    FOREIGN KEY (movie_id) REFERENCES Movies(movie_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+--Creating Rentals Table
+
+CREATE TABLE Rentals (
+    rental_id INT PRIMARY KEY,
+    rental_date DATE,
+    return_date DATE,
+    movie_id INT,
+    user_id INT,
+    FOREIGN KEY (movie_id) REFERENCES Movies(movie_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+--Inserting Data into Genre Table
+
+INSERT INTO Genres (genre_id, genre_name) VALUES
+(1, 'Action'),
+(2, 'Comedy'),
+(3, 'Drama'),
+(4, 'Horror'),
+(5, 'Sci-Fi'),
+(6, 'Thriller');
+
+--Inserting Data into Directors Table
+
+INSERT INTO Directors (director_id, name) VALUES
+(1, 'Christopher Nolan'),
+(2, 'Quentin Tarantino'),
+(3, 'Steven Spielberg'),
+(4, 'Alfred Hitchcock'),
+(5, 'Martin Scorsese'),
+(6, 'Francis Ford Coppola');
+
+--Inserting Data into Studio Table
+
+INSERT INTO Studios (studio_id, name) VALUES
+(1, 'Warner Bros.'),
+(2, 'Universal Pictures'),
+(3, 'Paramount Pictures'),
+(4, '20th Century Studios'),
+(5, 'Columbia Pictures'),
+(6, 'Walt Disney Studios');
+
+--Inserting Data into Users Table
+
+INSERT INTO Users (user_id, username, password, email) VALUES
+(1, 'john_doe', 'password123', 'john_doe@example.com'),
+(2, 'jane_smith', 'qwerty456', 'jane_smith@example.com'),
+(3, 'mike_jones', 'abc123', 'mike_jones@example.com'),
+(4, 'sara_williams', 'pass1234', 'sara_williams@example.com'),
+(5, 'david_clark', 'password', 'david_clark@example.com'),
+(6, 'emily_brown', 'ilovecats', 'emily_brown@example.com');
+
+--Inserting Data into Movies Table
+
+INSERT INTO Movies (movie_id, title, release_year, genre_id, director_id, studio_id) VALUES
+(1, 'Inception', 2010, 5, 1, 1),
+(2, 'Pulp Fiction', 1994, 6, 2, 2),
+(3, 'Jurassic Park', 1993, 5, 3, 3),
+(4, 'Psycho', 1960, 4, 4, 4),
+(5, 'Goodfellas', 1990, 3, 5, 2),
+(6, 'The Godfather', 1972, 3, 6, 4);
+
+--Inserting Data into Reviews Table
+
+INSERT INTO Reviews (review_text, rating, movie_id, user_id) VALUES
+('Great movie, loved the storyline and special effects.', 4.5, 1, 1), -- User 1's review for Inception
+('Classic film with fantastic dialogue and memorable scenes.', 4.8, 2, 2), -- User 2's review for Pulp Fiction
+('Awesome dinosaur movie, one of my childhood favorites.', 4.2, 3, 3), -- User 3's review for Jurassic Park
+('Creepy and suspenseful, Hitchcock at his best.', 4.0, 4, 4), -- User 4's review for Psycho
+('Amazing performances, especially Joe Pesci!', 4.7, 5, 5), -- User 5's review for Goodfellas
+('An epic crime saga, a must-watch for any movie fan.', 4.9, 6, 6); -- User 6's review for The Godfather
+
+--Inserting Data into Rentals Table
+
+INSERT INTO Rentals (rental_date, return_date, movie_id, user_id) VALUES
+('2023-01-05', '2023-01-12', 1, 1), -- User 1 rented Inception
+('2023-02-10', '2023-02-17', 2, 2), -- User 2 rented Pulp Fiction
+('2023-03-15', '2023-03-22', 3, 3), -- User 3 rented Jurassic Park
+('2023-04-20', '2023-04-27', 4, 4), -- User 4 rented Psycho
+('2023-05-25', '2023-06-01', 5, 5), -- User 5 rented Goodfellas
+('2023-06-30', '2023-07-07', 6, 6); -- User 6 rented The Godfather
